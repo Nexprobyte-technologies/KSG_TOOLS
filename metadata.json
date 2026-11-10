@@ -1,0 +1,6 @@
+{
+  "name": "K.S.G. Tools",
+  "description": "Leading manufacturer of Chipper Knives, Tools & Dies, Industrial Shredding Machinery, Grinder Blades, Granulator Blades, and VMC Job Work in Coimbatore since 2009.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
