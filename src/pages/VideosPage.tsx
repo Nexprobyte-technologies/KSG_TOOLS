@@ -2,6 +2,7 @@ import React from 'react';
 import { videos, company } from '../data/ksgData';
 import { Icon } from '../components/Icon';
 import { VideoPlayer } from '../components/VideoPlayer';
+import { ShapeGridBackground } from '../components/ShapeGridBackground';
 
 interface VideosPageProps {
   navigate: (path: string) => void;
@@ -16,7 +17,7 @@ export const VideosPage: React.FC<VideosPageProps> = ({
     <main>
       {/* 1. Page Hero */}
       <section className="page-hero">
-        <canvas className="shapegrid-canvas page-hero-canvas" />
+        <ShapeGridBackground className="page-hero-shape-grid" />
         <div className="container">
           <div className="page-hero-grid">
             <div className="page-hero-content">

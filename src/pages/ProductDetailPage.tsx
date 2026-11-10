@@ -1,6 +1,7 @@
 import React from 'react';
 import { products, company, Product } from '../data/ksgData';
 import { Icon } from '../components/Icon';
+import { ShapeGridBackground } from '../components/ShapeGridBackground';
 
 interface ProductDetailPageProps {
   slug: string;
@@ -45,7 +46,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   return (
     <main>
       <section className="page-hero product-detail-hero">
-        <canvas className="shapegrid-canvas page-hero-canvas" />
+        <ShapeGridBackground className="page-hero-shape-grid" />
         <div className="container">
           <div className="page-hero-grid">
             <div className="page-hero-content">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { company, factsheet, products } from '../data/ksgData';
 import { Icon } from '../components/Icon';
+import { ShapeGridBackground } from '../components/ShapeGridBackground';
 
 interface ContactPageProps {
   navigate: (path: string) => void;
@@ -37,8 +38,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   return (
     <main>
       {/* 1. Page Hero */}
-      <section className="page-hero">
-        <canvas className="shapegrid-canvas page-hero-canvas" />
+      <section className="page-hero matched-page-hero">
+        <ShapeGridBackground className="page-hero-shape-grid" />
         <div className="container">
           <div className="page-hero-grid">
             <div className="page-hero-content">
@@ -93,7 +94,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                     className="btn btn-primary"
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    <Icon name="phone" size={15} /> Call: {company.phone}
+                    <Icon name="phone" size={15} />{company.phone}
                   </a>
                   <a
                     href={`https://wa.me/${company.whatsapp}?text=Hello%20KSG%20Tools%2C%20I%20would%20like%20to%20get%20in%20touch%20regarding%20cutting%20tools.`}
@@ -102,7 +103,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                     className="btn-hero-wa"
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    <Icon name="chat" size={15} /> WhatsApp +91 {company.whatsapp.slice(2)}
+                    <Icon name="chat" size={15} />+91 {company.whatsapp.slice(2)}
                   </a>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { infrastructure, company, InfrastructureItem } from '../data/ksgData';
 import { Icon } from '../components/Icon';
+import { ShapeGridBackground } from '../components/ShapeGridBackground';
 
 interface PhotosPageProps {
   navigate: (path: string) => void;
@@ -28,8 +29,8 @@ export const PhotosPage: React.FC<PhotosPageProps> = ({
   return (
     <main>
       {/* 1. Page Hero */}
-      <section className="page-hero photos-page-hero">
-        <canvas className="shapegrid-canvas page-hero-canvas" />
+      <section className="page-hero photos-page-hero matched-page-hero">
+        <ShapeGridBackground className="page-hero-shape-grid" />
         <div className="container">
           <div className="page-hero-grid">
             <div className="page-hero-content">

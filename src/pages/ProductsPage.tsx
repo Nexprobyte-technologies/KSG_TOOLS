@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { products, categories, company, Product } from '../data/ksgData';
 import { Icon } from '../components/Icon';
+import { ShapeGridBackground } from '../components/ShapeGridBackground';
 
 interface ProductsPageProps {
   navigate: (path: string) => void;
@@ -86,8 +87,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   return (
     <main>
       {/* 1. Page Hero */}
-      <section className="page-hero products-page-hero">
-        <canvas className="shapegrid-canvas page-hero-canvas" />
+      <section className="page-hero products-page-hero matched-page-hero">
+        <ShapeGridBackground className="page-hero-shape-grid" />
         <div className="container">
           <div className="page-hero-grid">
             <div className="page-hero-content">
@@ -197,6 +198,15 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
       {/* 2. Main Catalog Section */}
       <section className="section products-catalog-section">
         <div className="container">
+          <div className="products-catalog-heading">
+            <span className="eyebrow">Verified Industrial Product Catalog</span>
+            <h2>Products &amp; Industrial Services</h2>
+            <p>
+              Direct from manufacturer in Coimbatore · {products.length} Products
+              &amp; Services available · Custom sizes &amp; grades manufactured to
+              order
+            </p>
+          </div>
           <div
             className="home-catalog-tabs-wrap"
             role="region"
