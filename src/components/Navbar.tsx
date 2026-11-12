@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from './Icon';
 import { company } from '../data/ksgData';
 
@@ -15,6 +15,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },
@@ -23,10 +34,22 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Contact Us', href: '/contact' },
   ];
 
+  const catalogueHref = '/KSG-Tools-Product-Catalogue.pdf';
+  const whatsappHref = `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(
+    'Hello KSG Tools, I would like to get a quotation and factsheet details.'
+  )}`;
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
   const handleLinkClick = (href: string, e: React.MouseEvent) => {
     e.preventDefault();
-    setMobileMenuOpen(false);
+    closeMobileMenu();
     navigate(href);
+  };
+
+  const handleQuoteClick = () => {
+    closeMobileMenu();
+    openQuoteModal();
   };
 
   const isActive = (href: string) => {
@@ -35,178 +58,167 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="navbar" role="banner">
-      <div className="container">
-        <a
-          className="brand"
-          aria-label="K.S.G. Tools Home"
-          href="/"
-          onClick={(e) => handleLinkClick('/', e)}
-        >
-          <img
-            className="brand-logo-image"
-            src="/hero/logo.png"
-            alt="K.S.G. Tools"
-          />
-        </a>
-
-        {/* Desktop navigation */}
-        <nav aria-label="Main Navigation">
-          <ul className="nav-links">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  className={isActive(link.href) ? 'active' : ''}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(link.href, e)}
-                >
-                  <span>{link.label}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="nav-cta">
+    <>
+      <header className="navbar" role="banner">
+        <div className="container">
           <a
-            href={`tel:${company.phoneLink}`}
-            className="phone-pill"
-            title={`Call K.S.G. Tools direct: ${company.phone}`}
+            className="brand"
+            aria-label="K.S.G. Tools Home"
+            href="/"
+            onClick={(e) => handleLinkClick('/', e)}
           >
-            <Icon name="phone" size={14} />
-            <span className="phone-pill-text">{company.phone}</span>
+            <img
+              className="brand-logo-image"
+              src="/hero/logo.png"
+              alt="K.S.G. Tools"
+            />
           </a>
 
-          <button
-            type="button"
-            className="btn btn-primary nav-quote-btn"
-            title="Request a Factory Quote"
-            onClick={() => openQuoteModal()}
-          >
-            <Icon name="document" size={13} />
-            <span>Request Quote</span>
-          </button>
+          {/* Desktop navigation */}
+          <nav aria-label="Main Navigation">
+            <ul className="nav-links">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    className={isActive(link.href) ? 'active' : ''}
+                    href={link.href}
+                    onClick={(e) => handleLinkClick(link.href, e)}
+                  >
+                    <span>{link.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-          <a
-            href="/KSG-Tools-Product-Catalogue.pdf"
-            download="KSG-Tools-Product-Catalogue.pdf"
-            className="btn btn-primary nav-catalog-btn"
-          >
-            <Icon name="download" size={13} />
-            <span>Catalogue</span>
-          </a>
-
-          {/* Mobile hamburger button */}
-          <button
-            type="button"
-            className="mobile-menu-toggle"
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{
-              display: 'none',
-              background: 'transparent',
-              border: 'none',
-              color: '#ffffff',
-              padding: '6px',
-              cursor: 'pointer',
-            }}
-          >
-            <Icon name={mobileMenuOpen ? 'close' : 'menu'} size={24} />
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div
-          className="mobile-nav-drawer"
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            background: 'var(--navy, #172334)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-            padding: '16px 20px',
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
-            zIndex: 1000,
-          }}
-        >
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: '0 0 16px 0',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-            }}
-          >
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(link.href, e)}
-                  style={{
-                    display: 'block',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    color: isActive(link.href)
-                      ? 'var(--machinery-orange, #f28c28)'
-                      : '#ffffff',
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    background: isActive(link.href)
-                      ? 'rgba(242, 140, 40, 0.15)'
-                      : 'transparent',
-                  }}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="nav-cta">
             <a
+              className="phone-pill"
               href={`tel:${company.phoneLink}`}
-              className="btn btn-outline"
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                padding: '10px',
-              }}
+              title={`Call K.S.G. Tools direct: ${company.phone}`}
             >
-              <Icon name="phone" size={16} />
-              <span>Call: {company.phone}</span>
+              <Icon name="phone" size={14} />
+              <span className="phone-pill-text">{company.phone}</span>
             </a>
+
             <button
               type="button"
-              className="btn btn-primary"
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                padding: '10px',
-              }}
-              onClick={() => {
-                setMobileMenuOpen(false);
-                openQuoteModal();
-              }}
+              className="btn btn-primary nav-quote-btn"
+              onClick={handleQuoteClick}
             >
-              <Icon name="document" size={16} />
-              <span>Request Factory Quote</span>
+              <Icon name="document" size={13} />
+              <span className="btn-text-full">Request a Quote</span>
             </button>
+
             <a
-              href="/KSG-Tools-Product-Catalogue.pdf"
+              className="btn btn-primary nav-download-btn"
+              href={catalogueHref}
               download="KSG-Tools-Product-Catalogue.pdf"
-              className="btn btn-primary"
-              style={{ width: '100%', justifyContent: 'center', padding: '10px' }}
             >
-              <Icon name="download" size={16} />
-              <span>Download Catalogue</span>
+              <Icon name="download" size={13} />
+              <span className="btn-text-full">Download Catalogue</span>
             </a>
           </div>
+
+          {/* Mobile sidebar controls: burger + quick quote pill (styled via CSS on small screens) */}
+          <div className="mobile-nav-controls">
+            <button
+              type="button"
+              className="btn btn-primary mobile-nav-quote"
+              onClick={handleQuoteClick}
+            >
+              <Icon name="document" size={14} />
+              <span>Request Quote</span>
+            </button>
+
+            <button
+              type="button"
+              className="burger"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+            >
+              <Icon name={mobileMenuOpen ? 'close' : 'menu'} size={20} />
+            </button>
+          </div>
         </div>
+      </header>
+
+      {/* Mobile Sidebar / Drawer */}
+      {mobileMenuOpen && (
+        <>
+          <div
+            className="nav-backdrop"
+            onClick={closeMobileMenu}
+            aria-hidden="true"
+          />
+
+          <div
+            className="mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation menu"
+          >
+            <div className="mobile-drawer-head">
+              <div className="mobile-drawer-brand">
+                <span className="brand-mark small">K</span>
+                <span className="mobile-drawer-name">K.S.G. Tools</span>
+              </div>
+              <button
+                type="button"
+                className="mobile-drawer-close"
+                onClick={closeMobileMenu}
+                aria-label="Close menu"
+              >
+                <Icon name="close" size={16} />
+              </button>
+            </div>
+
+            <ul className="mobile-drawer-links">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className={isActive(link.href) ? 'active' : ''}
+                    onClick={(e) => handleLinkClick(link.href, e)}
+                  >
+                    <span>{link.label}</span>
+                    <Icon name="arrowRight" size={16} className="arrow" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mobile-drawer-cta">
+              <button
+                type="button"
+                className="btn btn-primary mobile-cta-quote"
+                onClick={handleQuoteClick}
+              >
+                <Icon name="document" size={16} />
+                <span>Request a Quote</span>
+              </button>
+              <a
+                className="btn btn-outline mobile-cta-download"
+                href={catalogueHref}
+                download="KSG-Tools-Product-Catalogue.pdf"
+              >
+                <Icon name="download" size={16} />
+                <span>Download Catalogue</span>
+              </a>
+              <a
+                className="btn btn-wa mobile-cta-wa"
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="chat" size={16} />
+                <span>WhatsApp Us</span>
+              </a>
+            </div>
+          </div>
+        </>
       )}
-    </header>
+    </>
   );
 };
