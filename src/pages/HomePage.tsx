@@ -101,7 +101,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               Manufacturer · Coimbatore
             </span>
             <h1>
-              Industrial Cutting Tools, Shredder Knives &amp; VMC Machining by{' '}
+              Industrial Cutting Tools, Shredder Knives &amp; VMC Machined Components{' '}
               <span className="accent">K.S.G. Tools</span>
             </h1>
             <p className="lead">
